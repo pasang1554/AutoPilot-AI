@@ -1,12 +1,18 @@
 class MemoryStore:
     def __init__(self):
-        self.memory = []
+        self.history = []
 
     def add(self, role: str, content: str):
-        self.memory.append({"role": role, "content": content})
+        self.history.append({
+            "role": role,
+            "content": content
+        })
 
-    def get_all(self):
-        return self.memory
+    def get_context(self):
+        return "\n".join(
+            f"{item['role'].upper()}: {item['content']}"
+            for item in self.history
+        )
 
     def clear(self):
-        self.memory = []
+        self.history = []

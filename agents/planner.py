@@ -7,8 +7,26 @@ class PlannerAgent:
 
     def plan(self, goal: str) -> str:
         prompt = ChatPromptTemplate.from_messages([
-            ("system", "You are a senior planner agent. Break the goal into clear numbered steps."),
+            (
+                "system",
+                """You are a planning agent.
+
+Return STRICT JSON only.
+Do NOT explain.
+
+FORMAT:
+{{
+  "steps": [
+    "step 1",
+    "step 2",
+    "step 3"
+  ]
+}}
+"""
+            ),
             ("human", "{goal}")
         ])
+
         chain = prompt | self.llm
-        return chain.invoke({"goal": goal}).content
+        response = chain.invoke({"goal": goal}).content
+        return response

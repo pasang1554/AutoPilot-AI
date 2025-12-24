@@ -7,8 +7,24 @@ class CriticAgent:
 
     def review(self, execution: str) -> str:
         prompt = ChatPromptTemplate.from_messages([
-            ("system",
-             "You are a strict critic agent. Validate logic, correctness, and completeness."),
+            (
+                "system",
+                """You are a critic agent.
+
+Evaluate the execution.
+
+Return STRICT JSON only.
+
+FORMAT:
+{{
+  "accuracy": 0,
+  "completeness": 0,
+  "clarity": 0,
+  "approved": true,
+  "issues": "..."
+}}
+"""
+            ),
             ("human", "{execution}")
         ])
 
